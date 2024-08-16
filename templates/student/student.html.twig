@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block body %}
+        <style>
+                body {
+                        background: white; /* Setting the body background to white */
+                }
+                .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+                .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+                .student.ng-enter,
+                .student.ng-leave {
+                        transition: 0.5s linear;
+                }
+
+                .student.ng-enter {
+                        opacity: 0;
+                }
+
+                .student.ng-enter-active {
+                        opacity: 1;
+                }
+
+                .student.ng-leave {
+                        opacity: 1;
+                }
+
+                .student.ng-leave-active {
+                        opacity: 0;
+                }
+                /* Form Styles */
+                form {
+                        background-color: #f9f9f9;
+                        padding: 20px;
+                        border-radius: 5px;
+                        margin-bottom: 20px;
+                }
+                form input[type="text"],
+                form input[type="email"],
+                form input[type="number"] {
+                        width: calc(100% - 22px);
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        border-radius: 3px;
+                        border: 1px solid #ddd;
+                }
+                form input[type="submit"] {
+                        padding: 10px 20px;
+                        background-color: #007bff;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                }
+                form input[type="submit"]:hover {
+                        background-color: #0056b3;
+                }
+
+                /* Students List Styles */
+                .student {
+                        background-color: #f9f9f9;
+                        padding: 20px;
+                        border-radius: 5px;
+                        margin-bottom: 10px;
+                }
+                .student button {
+                        float: right;
+                        margin-left: 10px;
+                        border: none;
+                        padding: 5px 10px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                }
+        </style>
+
+        <div class="example-wrapper" ng-app="TestStudentsCRUD" ng-controller="ListController">
+                {% verbatim %}
+            <form ng-submit="addStudent()">
+                <label>Name:</label>
+                <input type="text" ng-model="newStudent.name" placeholder="Name" required />
+                <label>Email:</label>
+                <input type="email" ng-model="newStudent.email" placeholder="Email" required />
+                <label>Age:</label>
+                <input type="number" ng-model="newStudent.age" placeholder="Age" required />
+                <input type="submit" value="Add Student" />
+            </form>
+            <div ng-repeat="student in students" class="student">
+                <p><strong>Name: </strong>{{student.name}}</p>
+                <p><strong>Email: </strong>{{student.email}}</p>
+                <p><strong>Age: </strong>{{student.age}}</p>
+                <!-- Edit form -->
+                <div ng-if="student.editing">
+                    <form ng-submit="submitEdit(student)">
+                        <input type="text" ng-model="student.name" placeholder="Name" required />
+                        <input type="email" ng-model="student.email" placeholder="Email" required />
+                        <input type="number" ng-model="student.age" placeholder="Age" required />
+                        <button type="submit">Confirm</button>
+                    </form>
+                </div>
+
+                <!-- Edit button -->
+                <button ng-if="!student.editing" ng-click="editStudent(student)">Edit</button>
+
+                <!-- Delete button -->
+                <button ng-click="deleteStudent(student.id)">Delete</button>
+            </div>
+        {% endverbatim %}
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
