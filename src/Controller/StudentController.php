@@ -58,13 +58,22 @@ class StudentController extends AbstractController
         $this->em->persist($student);
         $this->em->flush();
 
-        // return a proper success response, usually 201
-        return new JsonResponse(['status' => 'Student created'], Response::HTTP_CREATED);
+        // Convert new student to array
+        $studentArray = [
+            'id' => $student->getId(),
+            'name' => $student->getName(),
+            'email' => $student->getEmail(),
+            'age' => $student->getAge(),
+        ];
+
+        // return the newly created student
+        return new JsonResponse($studentArray, Response::HTTP_CREATED);
     }
 
     #[Route('/api/students/delete/{id}', name: 'api_students_delete', methods: ['DELETE'])]
     public function deleteStudent(Student $student): Response
     {
+
         // Instead of removing the student, mark it as deleted
         $student->setDeleted(true);
         $this->em->persist($student);

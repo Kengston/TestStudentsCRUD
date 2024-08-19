@@ -27,8 +27,8 @@ app.controller('ListController', ['$scope', 'studentService', function($scope, s
 
     $scope.addStudent = function() {
         studentService.addStudent($scope.newStudent).then(function(response) {
-            // if creation successful, push the new student to the list and reset the newStudent object
-            $scope.students.push($scope.newStudent);
+            // Use the server response here.
+            $scope.students.push(response.data);
             $scope.newStudent = {};
         });
     };
@@ -53,4 +53,3 @@ app.controller('ListController', ['$scope', 'studentService', function($scope, s
         });
     };
 }])
-
